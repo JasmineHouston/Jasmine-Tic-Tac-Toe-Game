@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jasmine Tic Tac Toe Game</title>
+    <style>
+        body { text-align: center; font-family: sans-serif; }
+        .board { display: grid; grid-template-columns: repeat(3, 100px); justify-content: center; gap: 5px; }
+        .cell { width: 100px; height: 100px; border: 2px solid black; font-size: 3em; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Jasmine Tic Tac Toe Game</h1>
+    <div class="board" id="board">
+        <script>
+            // Generate cells
+            for(let i=0; i<9; i++) document.write(`<div class="cell" onclick="makeMove(this)"></div>`);
+        </script>
+    </div>
+    <p id="status">Player X's turn</p>
+    <script>
+        let turn = 'X', gameOver = false;
+        const cells = document.querySelectorAll('.cell');
+        const winCombos = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+        function makeMove(cell) {
+            if(cell.innerText || gameOver) return;
+            cell.innerText = turn;
+            if(checkWin()) {
+                document.getElementById('status').innerText = `Player ${turn} Wins!`;
+                gameOver = true;
+            } else {
+                turn = turn === 'X' ? 'O' : 'X';
+                document.getElementById('status').innerText = `Player ${turn}'s turn`;
+            }
+        }
+        function checkWin() {
+            return winCombos.some(combo => {
+                return combo.every(index => cells[index].innerText === turn);
+            });
+        }
+    </script>
+</body>
+</html>
